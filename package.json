@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "A blog website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ahlam",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "sqlite3": "^4.1.1"
+  },
+  "nodemonConfig": {
+    "ext": "*"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
