@@ -7,6 +7,9 @@ const upload = require("./img-parser");
 // Database operations
 const Database = require("./Database");
 
+// cors
+const cors = require("cors");
+
 // init express
 const app = express();
 
@@ -14,6 +17,10 @@ const app = express();
 const port = 3000;
 
 // static files
+app.use("/uploads", express.static("uploads"));
+
+// use cors
+app.use(cors());
 
 // get all articles
 // http://localhost:3000/
@@ -40,6 +47,7 @@ app.get("/:section/:id", (request, response) => {
 
 // add an article
 app.post("/:section", upload.single("uploadedImg"), (request, response) => {
+
   // check extension
   /* let ext;
   if (request.file.mimetype === "image/jpeg") {
@@ -48,7 +56,7 @@ app.post("/:section", upload.single("uploadedImg"), (request, response) => {
     ext = ".png";
   }
   console.log(ext); */
-
+  
   Database.addArticle(request, response);
 });
 

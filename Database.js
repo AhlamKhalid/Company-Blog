@@ -43,7 +43,7 @@ class Database {
     const image = imageValue(request);
     const type = request.params.section;
     // to be changed every insertion cuz it's PRIMARY KEY
-    const id = 8;
+    const id = 5;
 
     this.command =
       "INSERT INTO articles (id, title, content, image, added_at, type) VALUES (?, ?, ?, ?, DATE('now', 'localtime'), ?)";
@@ -51,7 +51,7 @@ class Database {
     db.run(this.command, [id, title, content, image, type]);
 
     // response
-    response.send("success");
+    response.redirect(`http://localhost:8080/${type}`);
   }
 }
 
@@ -60,7 +60,7 @@ class Database {
 const sendResult = (error, rows, response) => {
   if (error) {
     response.send(`Error: ${error.message}`);
-  } else {
+  } else {   
     response.json(rows);
   }
 };
@@ -70,7 +70,13 @@ const imageValue = request => {
   if (!request.file) {
     return null;
   } else {
-    return request.file.filename;
+    let ext = "";
+    if (request.file.mimetype === "image/jpeg") {
+      ext = ".jpg";
+    } else if (request.file.mimetype === "image/png") {
+      ext = ".png";
+    }
+    return request.file.filename + ext;
   }
 };
 
