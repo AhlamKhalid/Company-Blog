@@ -6,13 +6,9 @@
       <h3>
         <!-- go to article page -->
         <!-- send along the section, article id, the article itself -->
-        <router-link
-          :to="{
-            name: 'Article',
-            params: { section, id: article.id, article }
-          }"
-          >{{ article.title }}</router-link
-        >
+        <router-link :to="`/${section}/${article.id}`">{{
+          article.title
+        }}</router-link>
       </h3>
       <h5>{{ getDate(article.added_at) }}</h5>
     </div>
@@ -126,9 +122,12 @@ export default {
     },
     // get articles from backend
     getArticles() {
+      
       axios
         .get(`http://localhost:3000/${this.section}`)
-        .then(response => (this.articles = response.data))
+        .then(response => {
+          this.articles = response.data;
+        })
         .catch(error => console.log(error.message));
     }
   },

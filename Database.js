@@ -42,16 +42,26 @@ class Database {
     const content = request.body.content;
     const image = imageValue(request);
     const type = request.params.section;
-    // to be changed every insertion cuz it's PRIMARY KEY
-    const id = 5;
+    const id = this.getId();
 
     this.command =
       "INSERT INTO articles (id, title, content, image, added_at, type) VALUES (?, ?, ?, ?, DATE('now', 'localtime'), ?)";
 
     db.run(this.command, [id, title, content, image, type]);
-
     // response
     response.redirect(`http://localhost:8080/${type}`);
+  }
+
+  static getId() {
+    this.command = "SELECT id FROM articles ORDER BY id DESC LIMIT 1;";
+    db.get(this.command, (error, rows) => {
+      if (error) {
+        response.send(`Error: ${error.message}`);
+      } else {
+        const lastId = rows.id;
+        return lastId + 1;
+      }
+    });
   }
 }
 
@@ -60,7 +70,7 @@ class Database {
 const sendResult = (error, rows, response) => {
   if (error) {
     response.send(`Error: ${error.message}`);
-  } else {   
+  } else {
     response.json(rows);
   }
 };
@@ -70,13 +80,7 @@ const imageValue = request => {
   if (!request.file) {
     return null;
   } else {
-    let ext = "";
-    if (request.file.mimetype === "image/jpeg") {
-      ext = ".jpg";
-    } else if (request.file.mimetype === "image/png") {
-      ext = ".png";
-    }
-    return request.file.filename + ext;
+    return request.file.filename;
   }
 };
 

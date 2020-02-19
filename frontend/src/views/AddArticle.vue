@@ -51,7 +51,7 @@ export default {
         event.preventDefault();
         // warn user
         this.error = "Please, fill required title & content";
-      }
+      } 
     }
   }
 };

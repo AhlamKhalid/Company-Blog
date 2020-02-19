@@ -47,7 +47,6 @@ app.get("/:section/:id", (request, response) => {
 
 // add an article
 app.post("/:section", upload.single("uploadedImg"), (request, response) => {
-
   // check extension
   /* let ext;
   if (request.file.mimetype === "image/jpeg") {
@@ -56,7 +55,7 @@ app.post("/:section", upload.single("uploadedImg"), (request, response) => {
     ext = ".png";
   }
   console.log(ext); */
-  
+
   Database.addArticle(request, response);
 });
 
