@@ -2,8 +2,6 @@
 
 // multer
 const multer = require("multer");
-// path
-// const path = require("path");
 
 // image configuration
 const storage = multer.diskStorage({
@@ -12,6 +10,7 @@ const storage = multer.diskStorage({
     callback(null, Date.now() + "-" + file.fieldname);
   }
 });
+
 // init multer
 const upload = multer({ storage });
 

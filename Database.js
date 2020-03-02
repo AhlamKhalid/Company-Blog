@@ -1,4 +1,7 @@
-// sqlite
+// built-in pkg to format a URL
+const url = require("url");
+
+// installed pkg: sqlite
 const sqlite3 = require("sqlite3");
 
 // connect to database
@@ -30,6 +33,7 @@ class Database {
   // get an article
   static getArticle(section, id, response) {
     this.command = "SELECT * FROM articles WHERE type = ? AND id = ?;";
+    // expect one row as a result, use "get" method
     db.get(this.command, [section, id], (error, rows) =>
       sendResult(error, rows, response)
     );
@@ -43,30 +47,41 @@ class Database {
     const image = imageValue(request);
     const type = request.params.section;
     const id = this.getId();
-
+ 
     this.command =
       "INSERT INTO articles (id, title, content, image, added_at, type) VALUES (?, ?, ?, ?, DATE('now', 'localtime'), ?)";
 
     db.run(this.command, [id, title, content, image, type]);
+
     // response
-    response.redirect(`http://localhost:8080/${type}`);
+    // direct browser to another page & 
+    // send query string
+    response.redirect(
+      url.format({
+        pathname: `http://localhost:8080/${type}`,
+        query: {
+          added: true
+        }
+      })
+    );
   }
 
+  // get new article id 
   static getId() {
+    // get id of last inserted article
     this.command = "SELECT id FROM articles ORDER BY id DESC LIMIT 1;";
-    db.get(this.command, (error, rows) => {
+    db.get(this.command, (error, value) => {
       if (error) {
         response.send(`Error: ${error.message}`);
       } else {
-        const lastId = rows.id;
-        return lastId + 1;
+        return checkLastId(value);
       }
     });
   }
 }
 
 // responsible of sending result: either error
-// if something goes wrong or the requested result
+// if something goes wrong or the result as json
 const sendResult = (error, rows, response) => {
   if (error) {
     response.send(`Error: ${error.message}`);
@@ -77,10 +92,25 @@ const sendResult = (error, rows, response) => {
 
 // check if an image was uploaded
 const imageValue = request => {
+  // no image
   if (!request.file) {
     return null;
-  } else {
+  } 
+  // get the name created by multer
+  else {
     return request.file.filename;
+  }
+};
+
+// check if there is an article in db
+const checkLastId = value => {
+  // db contains articles
+  if (value) {
+    const lastId = value.id;
+    return lastId + 1;
+  } else {
+    // no previous articles
+    return 1;
   }
 };
 
