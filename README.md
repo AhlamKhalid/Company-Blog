@@ -32,6 +32,10 @@ A responsive website where user can publish articles. The blog has multiple sect
 
 `cd frontend`
 
+#### install dependencies
+
+`npm install`
+
 #### start server
 
 `npm run serve`
