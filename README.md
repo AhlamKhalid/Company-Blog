@@ -1,32 +1,45 @@
 # Company Blog
 
-A responsive website where user can publish articles. The blog has multiple sections: news, events and tips & advices. User can add a new article to any section. This blog is a fullstack website :). Built using Vue.js on the frontend and Node.js on the backend, yup fullstack Javascript website :) 
+Company blog where user can publish articles. The blog has multiple sections: news, events and tips & advices. User can add a new article to any section. This blog is a fullstack website :). Built using Vue.js in the frontend and Node.js in the backend, yup fullstack Javascript website :) Also, it is fully responsive.
 
 ## Contents
 
 - [Run project](#Run-project)
 - [Features](#Features)
 - [Technologies](#Technologies)
+- [Demo](#Demo)
 
 ## Run project
+
+**Backend**
 
 ### install dependencies
 
 `npm install`
 
-### start backend server
-
-#### Using node
+### start server
 
 `node server`
 
-#### or nodemon (autoamtically restart server if file changes)
+#### or 
 
-`nodemon server`
+`nodemon server` (autoamtically restart server if file changes)
 
 > _Note:_ `server` is a Javascript file where Node.js server is setup.
 
-### start frontend server
+Because I built this website on Linux & run it on Windows, I had an error saying "can't find module sqlite3". The following steps solve this issue:
+
+### install node-pre-gyp
+
+`npm i -g node-pre-gyp`
+
+### rebuild project
+
+`npm rebuild`
+
+### restart backend server 
+
+**Frontend**
 
 #### go to frontend folder
 
@@ -39,8 +52,6 @@ A responsive website where user can publish articles. The blog has multiple sect
 #### start server
 
 `npm run serve`
-
-> _Note:_ Both frontend & backend servers must be running.
 
 ### Features
 
@@ -58,3 +69,7 @@ A responsive website where user can publish articles. The blog has multiple sect
 - Express
 - RESTful API
 - sqlite database
+
+### Demo
+
+![demo](demo.gif)
